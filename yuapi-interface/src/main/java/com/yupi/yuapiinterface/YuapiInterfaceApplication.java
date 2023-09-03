@@ -9,7 +9,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
  * YuApi 模拟接口入口类
  *
  * @author <a href="https://github.com/booboil">程序员booboil</a>
- * @from <a href="https://yupi.icu">编程导航知识星球</a>
+ * booboil
  */
 //@SpringBootApplication
 @SpringBootApplication(exclude= {DataSourceAutoConfiguration.class})

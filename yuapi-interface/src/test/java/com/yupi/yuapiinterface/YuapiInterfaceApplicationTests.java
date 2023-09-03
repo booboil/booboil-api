@@ -11,7 +11,7 @@ import javax.annotation.Resource;
  * 测试类
  *
  * @author <a href="https://github.com/booboil">程序员booboil</a>
- * @from <a href="https://yupi.icu">编程导航知识星球</a>
+ * booboil
  */
 @SpringBootTest
 class YuapiInterfaceApplicationTests {

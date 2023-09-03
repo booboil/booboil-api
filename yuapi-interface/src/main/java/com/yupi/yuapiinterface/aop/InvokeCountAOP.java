@@ -6,12 +6,10 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
  * 调用次数统计切面
  *
  * @author <a href="https://github.com/booboil">程序员booboil</a>
- * @from <a href="https://yupi.icu">编程导航知识星球</a>
+ * booboil
  */
 @RestControllerAdvice
 public class InvokeCountAOP {
-
-    // 原创_项目 [booboil](https://github.com/booboil)
 
 //    @Resource
 //    private UserInterfaceInfoService userInterfaceInfoService;

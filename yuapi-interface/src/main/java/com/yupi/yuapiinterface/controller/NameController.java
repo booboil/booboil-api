@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletRequest;
  * 名称 API
  *
  * @author <a href="https://github.com/booboil">程序员booboil</a>
- * @from <a href="https://yupi.icu">编程导航知识星球</a>
+ * booboil
  */
 @RestController
 @RequestMapping("/name")
@@ -30,9 +30,9 @@ public class NameController {
     @PostMapping("/user")
     public String getUsernameByPost(@RequestBody User user, HttpServletRequest request) {
         String accessKey = request.getHeader("accessKey");
-        String nonce = request.getHeader("nonce");
-        String timestamp = request.getHeader("timestamp");
-        String sign = request.getHeader("sign");
+        String nonce = request.getHeader("nonce");  //随机数
+        String timestamp = request.getHeader("timestamp");  //时间戳
+        String sign = request.getHeader("sign");  //API签名
         String body = request.getHeader("body");
 //        // todo 实际情况应该是去数据库中查是否已分配给用户
 

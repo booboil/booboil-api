@@ -61,12 +61,22 @@ public class InterfaceInfoController {
             throw new BusinessException(ErrorCode.PARAMS_ERROR);
         }
         InterfaceInfo interfaceInfo = new InterfaceInfo();
-        //浅拷贝，对基本数据类型进行值传递
+
+//        // 方式一 : 编写vo与dto的数据转换 快速 复制InterfaceInfoAddRequest interfaceInfoAddRequest ，在interfaceInfo中alt+inster
+//        interfaceInfo.setName(interfaceInfoAddRequest.getName());
+//        interfaceInfo.setDescription(interfaceInfoAddRequest.getDescription());
+//        interfaceInfo.setUrl(interfaceInfoAddRequest.getUrl());
+//        interfaceInfo.setRequestParams(interfaceInfoAddRequest.getRequestParams());
+//        interfaceInfo.setRequestHeader(interfaceInfoAddRequest.getRequestHeader());
+//        interfaceInfo.setResponseHeader(interfaceInfoAddRequest.getResponseHeader());
+//        interfaceInfo.setMethod(interfaceInfoAddRequest.getMethod());
+        //  方式二 :浅拷贝，对基本数据类型进行值传递 （字段映射）
         BeanUtils.copyProperties(interfaceInfoAddRequest, interfaceInfo);
         // 校验
         interfaceInfoService.validInterfaceInfo(interfaceInfo, true);
         User loginUser = userService.getLoginUser(request);
         interfaceInfo.setUserId(loginUser.getId());
+        //插入 save
         boolean result = interfaceInfoService.save(interfaceInfo);
         if (!result) {
             throw new BusinessException(ErrorCode.OPERATION_ERROR);
@@ -106,6 +116,7 @@ public class InterfaceInfoController {
      * 更新
      *
      * @param interfaceInfoUpdateRequest
+     *
      * @param request
      * @return
      */
@@ -186,6 +197,8 @@ public class InterfaceInfoController {
         String sortField = interfaceInfoQueryRequest.getSortField();
         String sortOrder = interfaceInfoQueryRequest.getSortOrder();
         String description = interfaceInfoQuery.getDescription();
+
+
         // description 需支持模糊搜索
         interfaceInfoQuery.setDescription(null);
         // 限制爬虫
@@ -294,6 +307,7 @@ public class InterfaceInfoController {
         User loginUser = userService.getLoginUser(request);
         String accessKey = loginUser.getAccessKey();
         String secretKey = loginUser.getSecretKey();
+        //调用SDK
         YuApiClient tempClient = new YuApiClient(accessKey, secretKey);
         Gson gson = new Gson();
         com.yupi.yuapiclientsdk.model.User user = gson.fromJson(userRequestParams, com.yupi.yuapiclientsdk.model.User.class);

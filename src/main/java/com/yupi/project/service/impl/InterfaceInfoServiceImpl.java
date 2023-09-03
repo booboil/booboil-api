@@ -22,6 +22,7 @@ public class InterfaceInfoServiceImpl extends ServiceImpl<InterfaceInfoMapper, I
 
     @Override
     public void validInterfaceInfo(InterfaceInfo interfaceInfo, boolean add) {
+        //自动生成校验
 //     Long id = interfaceInfo.getId();
 //     String name = interfaceInfo.getName();
 //     String description = interfaceInfo.getDescription();
@@ -42,6 +43,7 @@ public class InterfaceInfoServiceImpl extends ServiceImpl<InterfaceInfoMapper, I
         String name = interfaceInfo.getName();
         // 创建时，所有参数必须非空
         if (add) {
+            //isAnyBlank() 任意一个为“  ”，“”，null，都为true
             if (StringUtils.isAnyBlank(name)) {
                 throw new BusinessException(ErrorCode.PARAMS_ERROR);
             }
