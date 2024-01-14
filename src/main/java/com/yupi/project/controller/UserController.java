@@ -1,4 +1,5 @@
 package com.yupi.project.controller;
+import java.util.Date;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -93,8 +94,6 @@ public class UserController {
         return ResultUtils.success(result);
     }
 
-    // [加入编程导航](https://booboil.top) 深耕编程提升【两年半】、国内净值【最高】的编程社群、用心服务【20000+】求学者、帮你自学编程【不走弯路】
-
     /**
      * 获取当前登录用户
      *
@@ -105,13 +104,23 @@ public class UserController {
     public BaseResponse<UserVO> getLoginUser(HttpServletRequest request) {
         User user = userService.getLoginUser(request);
         UserVO userVO = new UserVO();
+        // 方式一
+//        userVO.setId(user.getId());
+//        userVO.setUserName(user.getUserName());
+//        userVO.setUserAccount(user.getUserAccount());
+//        userVO.setUserAvatar(user.getUserAvatar());
+//        userVO.setGender(user.getGender());
+//        userVO.setUserRole(user.getUserRole());
+//        userVO.setCreateTime(user.getCreateTime());
+//        userVO.setUpdateTime(user.getUpdateTime());
+        // 方式二
         BeanUtils.copyProperties(user, userVO);
         return ResultUtils.success(userVO);
     }
 
     // endregion
 
-    // region 增删改查
+    // region 增删改查 (直接写在UserController)
 
     /**
      * 创建用户
@@ -126,7 +135,9 @@ public class UserController {
             throw new BusinessException(ErrorCode.PARAMS_ERROR);
         }
         User user = new User();
+        //拷贝
         BeanUtils.copyProperties(userAddRequest, user);
+        //save方法里面只能存在实体对象
         boolean result = userService.save(user);
         if (!result) {
             throw new BusinessException(ErrorCode.OPERATION_ERROR);
@@ -146,6 +157,7 @@ public class UserController {
         if (deleteRequest == null || deleteRequest.getId() <= 0) {
             throw new BusinessException(ErrorCode.PARAMS_ERROR);
         }
+        // 删除removeById() mybatis-plus
         boolean b = userService.removeById(deleteRequest.getId());
         return ResultUtils.success(b);
     }
@@ -164,6 +176,7 @@ public class UserController {
         }
         User user = new User();
         BeanUtils.copyProperties(userUpdateRequest, user);
+        // 更新updateById() mybatis-plus
         boolean result = userService.updateById(user);
         return ResultUtils.success(result);
     }
@@ -193,6 +206,7 @@ public class UserController {
      * @param request
      * @return
      */
+
     @GetMapping("/list")
     public BaseResponse<List<UserVO>> listUser(UserQueryRequest userQueryRequest, HttpServletRequest request) {
         User userQuery = new User();
@@ -200,7 +214,9 @@ public class UserController {
             BeanUtils.copyProperties(userQueryRequest, userQuery);
         }
         QueryWrapper<User> queryWrapper = new QueryWrapper<>(userQuery);
+        // 由于没有创建Mapper,现在只能调用list方法，否则调用selectList方法
         List<User> userList = userService.list(queryWrapper);
+
         List<UserVO> userVOList = userList.stream().map(user -> {
             UserVO userVO = new UserVO();
             BeanUtils.copyProperties(user, userVO);
@@ -228,12 +244,15 @@ public class UserController {
         }
         QueryWrapper<User> queryWrapper = new QueryWrapper<>(userQuery);
         Page<User> userPage = userService.page(new Page<>(current, size), queryWrapper);
+        // PageDTO是mybatis-plus自带的封装类 //当前页数、当前页数的条数、总页数
         Page<UserVO> userVOPage = new PageDTO<>(userPage.getCurrent(), userPage.getSize(), userPage.getTotal());
+        // getRecords方法来获取分页查询结果
         List<UserVO> userVOList = userPage.getRecords().stream().map(user -> {
             UserVO userVO = new UserVO();
             BeanUtils.copyProperties(user, userVO);
             return userVO;
         }).collect(Collectors.toList());
+        // 设置分页查询到userVOPage中，方便后续展示
         userVOPage.setRecords(userVOList);
         return ResultUtils.success(userVOPage);
     }

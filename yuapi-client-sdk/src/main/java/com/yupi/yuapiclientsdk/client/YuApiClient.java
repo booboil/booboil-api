@@ -1,6 +1,7 @@
 package com.yupi.yuapiclientsdk.client;
 
 import cn.hutool.core.util.RandomUtil;
+import cn.hutool.extra.ssh.JschRuntimeException;
 import cn.hutool.http.HttpRequest;
 import cn.hutool.http.HttpResponse;
 import cn.hutool.http.HttpUtil;

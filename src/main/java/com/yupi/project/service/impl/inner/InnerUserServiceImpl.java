@@ -23,7 +23,6 @@ public class InnerUserServiceImpl implements InnerUserService {
     @Resource
     private UserMapper userMapper;
 
-
     @Override
     public User getInvokeUser(String accessKey) {
         if (StringUtils.isAnyBlank(accessKey)) {

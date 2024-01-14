@@ -47,7 +47,6 @@ public class InterfaceInfoController {
     private YuApiClient yuApiClient;
 
     // region 增删改查
-
     /**
      * 创建
      *
@@ -62,7 +61,7 @@ public class InterfaceInfoController {
         }
         InterfaceInfo interfaceInfo = new InterfaceInfo();
 
-//        // 方式一 : 编写vo与dto的数据转换 快速 复制InterfaceInfoAddRequest interfaceInfoAddRequest ，在interfaceInfo中alt+inster
+       // 方式一 : 编写vo与dto的数据转换 快速 复制InterfaceInfoAddRequest interfaceInfoAddRequest ，在interfaceInfo中alt+inster
 //        interfaceInfo.setName(interfaceInfoAddRequest.getName());
 //        interfaceInfo.setDescription(interfaceInfoAddRequest.getDescription());
 //        interfaceInfo.setUrl(interfaceInfoAddRequest.getUrl());
@@ -70,7 +69,7 @@ public class InterfaceInfoController {
 //        interfaceInfo.setRequestHeader(interfaceInfoAddRequest.getRequestHeader());
 //        interfaceInfo.setResponseHeader(interfaceInfoAddRequest.getResponseHeader());
 //        interfaceInfo.setMethod(interfaceInfoAddRequest.getMethod());
-        //  方式二 :浅拷贝，对基本数据类型进行值传递 （字段映射）
+
         BeanUtils.copyProperties(interfaceInfoAddRequest, interfaceInfo);
         // 校验
         interfaceInfoService.validInterfaceInfo(interfaceInfo, true);
@@ -197,7 +196,6 @@ public class InterfaceInfoController {
         String sortField = interfaceInfoQueryRequest.getSortField();
         String sortOrder = interfaceInfoQueryRequest.getSortOrder();
         String description = interfaceInfoQuery.getDescription();
-
 
         // description 需支持模糊搜索
         interfaceInfoQuery.setDescription(null);
